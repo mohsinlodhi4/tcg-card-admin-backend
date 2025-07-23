@@ -1,0 +1,42 @@
+{
+  "name": "bluuhealth-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "seed-roles": "node database/seeders/rolesSeeder.js",
+    "seed-admin": "node database/seeders/adminSeeder.js",
+    "seed-users": "node database/seeders/usersSeeder.js",
+    "seed-icd": "node database/seeders/icdSeeder.js",
+    "dev": "nodemon index",
+    "start": "node index"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@googleapis/calendar": "^9.7.9",
+    "@sendgrid/mail": "^8.1.4",
+    "axios": "^1.8.4",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.10",
+    "express": "^4.18.1",
+    "express-validator": "^7.0.1",
+    "form-data": "^4.0.2",
+    "google-auth-library": "^9.15.1",
+    "handlebars": "^4.7.7",
+    "helmet": "^5.1.1",
+    "jsonwebtoken": "^9.0.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "mongoose": "^6.8.0",
+    "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.19",
+    "puppeteer": "^21.11.0",
+    "uuid": "^11.1.0"
+  }
+}

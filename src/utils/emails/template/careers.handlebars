@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <style>
+            .logo-container {
+                width: 100%;
+                margin-top:10px;
+                margin-bottom:10px;
+                text-align: center;
+            }
+            .logo-container img {
+                width: 150px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="logo-container">
+            {{!-- <img src="{{logo}}" alt="Bluu Health" /> --}}
+            <img src="cid:logo-bluuheath" alt="Bluu Health" />
+        </div>
+        <p>Hello,</p>
+        <p>You have received career request. Details are as follows: </p>
+        <ul>
+            <li><strong> Name: </strong> &nbsp; {{name}} </li>
+            <li><strong> Email: </strong> &nbsp;  {{email}} </li>
+            <li><strong> Contact: </strong> &nbsp;  {{contact}} </li>
+            <li><strong> Position: </strong> &nbsp; {{position}} </li>
+        </ul>
+
+        <br><br>
+        <p style="font-weight:bold;"> Best, <br/> The Bluu Team</p>
+    </body>
+</html>

@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <style>
+            .logo-container {
+                width: 100%;
+                margin-top:10px;
+                margin-bottom:10px;
+                text-align: center;
+            }
+            .logo-container img {
+                width: 150px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="logo-container">
+            {{!-- <img src="{{logo}}" alt="Bluu Health" /> --}}
+            <img src="cid:logo-bluuheath" alt="Bluu Health" />
+        </div>
+        <p>Hello,</p>
+        <p>You have received provider demo request from <a href="emailto:{{email}}">{{email}}</a> </p>
+
+        <br><br>
+        <p style="font-weight:bold;"> Best, <br/> The Bluu Team</p>
+    </body>
+</html>

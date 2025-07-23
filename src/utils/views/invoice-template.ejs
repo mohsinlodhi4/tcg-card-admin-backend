@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice</title>
+    <style>
+      body {
+        font-family: "Calibri";
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        margin: 20px auto;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .header img {
+        max-width: 100px;
+        height: auto;
+      }
+
+      .bill-to-from {
+        display: flex;
+        justify-content: space-between;
+      }
+      .space-bottom-0 {
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+      }
+      .mb-5 {
+        margin-bottom: 5px;
+      }
+
+      .bill-to-from div {
+        width: 48%;
+      }
+
+      .items-table {
+        margin-bottom: 20px;
+      }
+
+      .items-table table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .items-table table th {
+        background-color: #b4c6e7;
+      }
+
+      .items-table table th,
+      .items-table table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        font-size: 14px;
+      }
+      .items-table table td:nth-child(3),
+      .items-table table td:nth-child(4),
+      .items-table table td:nth-child(5) {
+        text-align: right;
+      }
+
+      .items-table table td {
+        min-height: 10px;
+      }
+      .total {
+        text-align: right;
+        font-weight: bold;
+      }
+
+      .footer {
+        margin-top: 50px;
+        /* text-align: center; */
+      }
+      .text-red {
+        color: red;
+      }
+      .bank-details,
+      .description {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+
+      .description {
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .single-line {
+        white-space: nowrap;
+        /* overflow: hidden; */
+        /* text-overflow: ellipsis; */
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- <div class="header">
+            <img src="<%= logoPath %>" alt="billFrom Logo">
+        </div> -->
+      <div class="bill-to-from space-bottom-0">
+        <div>
+          <h1>Invoice</h1>
+        </div>
+
+        <div>
+          <img src="<%= logoPath %>" alt="billFrom Logo" />
+          <p class="space-bottom-0">
+            <strong>Invoice No. :</strong> <%= invoice.invoiceCount %> <br />
+            <strong>Invoice Date. :</strong> <%= invoice.dueDate %> <br />
+          </p>
+        </div>
+      </div>
+      <div class="bill-to-from mb-5">
+        <div>
+          <p style="margin-bottom: 0px; padding-bottom: 0px; font-weight: bold">
+            Invoice To
+          </p>
+          <!-- <p style="margin-top: 0px; padding-top: 0px">
+            <%= invoice.billTo.name %> <br />
+            <% if(invoice.billTo.addressLine1){ %> <%=
+            invoice.billTo.addressLine1 %> <br />
+            <% } %> <% if(invoice.billTo.addressLine2){ %> <%=
+            invoice.billTo.addressLine2 %> <br />
+            <% } %> <% if(invoice.billTo.addressLine3){ %> <%=
+            invoice.billTo.addressLine3 %> <br />
+            <% } %> <% if(invoice.billTo.city){ %> <%= invoice.billTo.city %>
+            <br />
+            <% } %> <% if(invoice.billTo.email){ %> <%= invoice.billTo.email %>
+            <br />
+            <% } %> Customer NTN/VAT: <%= invoice.billTo.ntn_gtn || "N/A" %>
+            <br />
+          </p> -->
+          <p style="margin-top: 0px; padding-top: 0px">
+            <%- invoice.billTo.replaceAll("\n", "<br/>") %>
+          </p>
+        </div>
+        <div>
+          <p style="margin-bottom: 0px; padding-bottom: 0px; font-weight: bold">
+            Invoice From
+          </p>
+          <!-- <p style="margin-top: 0px; padding-top: 0px">
+            <%= invoice.billFrom.name %> <br />
+            <% if(invoice.billFrom.addressLine1){ %> <%=
+            invoice.billFrom.addressLine1 %> <br />
+            <% } %> <% if(invoice.billFrom.addressLine2){ %> <%=
+            invoice.billFrom.addressLine2 %> <br />
+            <% } %> <% if(invoice.billFrom.addressLine3){ %> <%=
+            invoice.billFrom.addressLine3 %> <br />
+            <% } %> <% if(invoice.billFrom.email){ %> <%= invoice.billFrom.email
+            %> <br />
+            <% } %> NTN/VAT: <%= invoice.billFrom.ntn_gtn || "N/A" %> <br />
+          </p> -->
+          <p style="margin-top: 0px; padding-top: 0px">
+            <%- invoice.billFrom.replaceAll("\n", "<br/>") %>
+          </p>
+        </div>
+      </div>
+      <% if(invoice.description) { %>
+      <div class="description">
+        <%=invoice.description.replace(/\n/g, '<br />') %>
+      </div>
+
+      <% } %>
+      <div></div>
+      <div class="items-table">
+        <!-- <h3>Items</h3> -->
+        <table>
+          <thead>
+            <tr>
+              <!-- <th>No.</th> -->
+              <th>Date</th>
+              <th>Description</th>
+              <!-- <th>Rate</th> -->
+              <!-- <th>Quantity</th> -->
+              <th>Amount (<%= invoice.currency %>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% let sno = 1; %> <% invoice.items.forEach(item => { %>
+            <tr>
+              <!-- <td><%= sno %></td> -->
+              <td><%= item.date %></td>
+              <!-- <td item.project.name </td> -->
+              <!-- <td> item.project.description </td> -->
+              <td><%= item.description %></td>
+              <!-- <td><%= item.quantity %></td> -->
+              <td><%= item.amount %></td>
+            </tr>
+            <% sno++ %> <% }); %>
+            <!-- <tr>
+              <td></td>
+              <td><strong>TOTAL</strong></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><%= invoice.total %></td>
+            </tr> -->
+            <% if(invoice.discountDetail && invoice.discountDetail.value &&
+            invoice.discountDetail.value>0){ %>
+            <tr>
+              <!-- <td></td> -->
+              <td>
+                <strong
+                  >Discount (<%=invoice.discountDetail.type == "fixed" ? "fixed"
+                  : `${invoice.discountDetail.value}%` %>)</strong
+                >
+              </td>
+              <!-- <td></td> -->
+              <!-- <td></td> -->
+              <td></td>
+              <td><%= invoice.discountDetail.amountDiscounted %></td>
+            </tr>
+            <% } %> 
+            <% if( invoice.taxDetail && (invoice.taxDetail.percentage || invoice.taxDetail.name) ){ %>
+            <tr>
+              <!-- <td></td> -->
+              <td>
+                <strong
+                  ><%= invoice.taxDetail.name %> (<%=
+                  invoice.taxDetail.percentage %>%)</strong
+                >
+              </td>
+              <!-- <td></td> -->
+              <!-- <td></td> -->
+              <td></td>
+              <td><%= invoice.taxDetail.amountTaxed %></td>
+            </tr>
+            <% } %>
+            <tr>
+              <!-- <td></td> -->
+              <td colspan="2" style="text-align: center;"><strong>TOTAL BALANCE DUE</strong></td>
+              <!-- <td></td> -->
+              <!-- <td></td> -->
+              <td class="single-line">
+                <strong>
+                  <%= invoice.currency %> <%= invoice.total %>
+                </strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- <div class="total">
+                <p>Total: <%= invoice.total %></p>
+                <p>Final Total: <%= invoice.finalTotal %></p>
+            </div> -->
+      </div>
+
+      <div class="bank-details">
+        <h5>Note:</h5>
+        <p>
+          <%= invoice.notes || '' %> <br />
+        </p>
+
+        <br />
+
+        <!-- <p>Note: Bank transfer charges to be borne by the remitter.</p>
+        <p>
+          Please remit payment at your earliest convenience. We appreciate it
+          very much. Thank you for your business
+        </p> -->
+        <p class="text-red">
+          This is a computer generated invoice and does not require a signature
+        </p>
+      </div>
+    </div>
+    <!-- <div class="footer">
+
+    </div> -->
+  </body>
+</html>

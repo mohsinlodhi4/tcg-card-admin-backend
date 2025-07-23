@@ -1,0 +1,92 @@
+<html></html>
+    <head>
+        <style>
+           body {
+                margin: 20px;
+                background-color: #f8f9fa!important;
+                font-family: sans-serif;
+            }
+                    
+            .container {
+                width: 80%;
+                margin-right: auto;
+                margin-left:auto;
+            }
+            .text-center{
+            text-align:center;
+            }
+            .bg-light{
+            background-color: #f8f9fa!important;
+            }
+            .bg-white {
+                background-color: #fff !important;
+            }
+            .pt-1{
+            padding-top:10px;
+            }
+            .mb-2{
+            margin-bottom:20px;
+            }
+            .p-3{
+            padding: 30px;
+            }
+            .p-4{
+            padding: 40px;
+            }
+            .shadow{
+            box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+            }
+            .btn {
+                display: inline-block;
+                font-weight: 400;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                border: 1px solid transparent;
+                padding: 0.375rem 0.75rem;
+                font-size: 1rem;
+                line-height: 1.5;
+                border-radius: 0.25rem;
+                transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+            text-decoration: none;
+            }
+            .btn-primary{
+                color: #fff;
+                background-color: #0072da;
+                border-color: #0072da;
+            }
+            .font-sm{
+            color: darkgray;
+            font-size: 12px;
+            } 
+        </style>
+    </head>
+    <body>
+        <div class="container pt-1">
+            <div class="text-center">
+                <img style="width: 180px; padding-bottom: 10px" src="cid:logo-bluuheath" />
+            </div>
+            <div class="bg-white p-3 shadow mb-2">
+                <h2>Hi {{name}} </h2>
+                
+                <p>
+                    This is a friendly reminder. You have not submitted your documents yet. Please click below link to submit requested documents.
+                </p>
+                <p class="text-center">
+                    <a class="btn btn-primary" href="{{link}}">Submit Documents</a>
+                </p>
+                
+                <p class="font-sm">
+                    Regards, <br/>
+                    {{providerName}}<br/>
+                    {{providerEmail}}<br/>
+                </p>
+            </div>
+            
+        </div>
+    </body>
+</html>
