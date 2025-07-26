@@ -1,13 +1,13 @@
 {
-  "name": "bluuhealth-backend",
+  "name": "tcg-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "seed-roles": "node database/seeders/rolesSeeder.js",
-    "seed-admin": "node database/seeders/adminSeeder.js",
-    "seed-users": "node database/seeders/usersSeeder.js",
-    "seed-icd": "node database/seeders/icdSeeder.js",
+    "seed-roles": "node src/database/seeders/rolesSeeder.js",
+    "seed-admin": "node src/database/seeders/adminSeeder.js",
+    "seed-users": "node src/database/seeders/usersSeeder.js",
+    "seed-icd": "node src/database/seeders/icdSeeder.js",
     "dev": "nodemon src/index",
     "start": "node src/index"
   },

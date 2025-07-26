@@ -10,44 +10,14 @@ connect().then(async () => {
   const roles = [
     {
       name: "admin",
+      label: "Admin",
       permissions: [
-        'manage-reminders',
-        'manage-patients', 'manage-claims',
-        'manage-appointments', 'manage-services',
-        'manage-availability', 'manage-insurance-claims',
-        'manage-invoices', 'view-sessions',
-        'view-appointments', 'view-analytics', 'manage-activities',
-        'admin-settings'
       ]
     },
     {
-      name: "provider",
+      name: "user",
+      label: "user",
       permissions: [
-        'manage-team', 'manage-reminders', 'manage-documents',
-        'manage-locations',
-        'manage-patients', 'manage-claims',
-        'manage-appointments', 'manage-services',
-        'manage-availability', 'manage-insurance-claims',
-        'manage-invoices', 'view-sessions',
-        'view-appointments', 'view-analytics', 'manage-activities',
-        'admin-settings'
-      ]
-    },
-    {
-      name: "patient",
-      permissions: [
-        'user-appointments',
-        'user-invoices',
-        'user-settings'
-        ,
-      ]
-    },
-    {
-      name: "provider-team-member", // provider's team member
-      permissions: [
-        'admin-settings',
-        'manage-locations',
-        'manage-activities',
       ]
     },
   ];
@@ -55,14 +25,7 @@ connect().then(async () => {
   try {
     await Role.deleteMany();
     const res = await Role.insertMany(roles);
-    console.log('yay!!', res);
-    // for(let role of res ) {
-    //   if(role.name == 'provider') {
-    //     await User.updateMany({role: ObjectId("66a61fd6d1b59fd4636eef2a")}, {role: role._id })
-    //   } else if (role.name == 'patient') {
-    //     await User.updateMany({role: ObjectId("66a61fd6d1b59fd4636eef2b")}, {role: role._id })
-    //   }
-    // }
+    console.log('roles seeded successfully !!', res);
   } catch (err) {
     // Handle errors
     console.log(err);
