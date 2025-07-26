@@ -1,17 +1,9 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const Token = require("../models/Token");
-const Invoice = require("../models/Invoice");
-const Appointment = require("../models/appointment");
 const Role = require("../models/Role");
-const crypto = require("crypto");
 const sendEmail = require("../utils/emails/sendEmail");
 const clientURL = process.env.CLIENT_URL;
 const { successResponse, errorResponse } = require("../utils/functions");
-const { default: mongoose } = require("mongoose");
-const Patient = require("../models/Patient");
-const appointment = require("../models/appointment");
 const moment = require('moment')
 
 // Function to handle adding a new role
@@ -278,115 +270,6 @@ const updateUser = async (req, res) => {
 };
 
 
-const getOverview = async (req, res) => {
-  try {
-    let paidInvoice = 0
-    let unPaidInvoice = 0
-    let newClient = 0
-    let existingClient = 0
-    const userId = req.user_id
-    const invoiceData = await Invoice.find({provider: userId})
-    const InvoiceCount = invoiceData?.map(el => {
-      if (el?.paymentDate != null) {
-        paidInvoice += 1
-      } else {
-        unPaidInvoice += 1
-      }
-    })
-    const currentDate = new Date();
-    const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
-    const patients = await Patient.find({providerId: userId});
-    const patientCount = patients.map(el => {
-      if (el?.createdAt >= startOfMonth && el?.createdAt <= endOfMonth) {
-        newClient += 1;
-      } else if (el?.createdAt < startOfMonth) {
-        existingClient += 1;
-      }
-    });
-    const monthlyCounts = await appointment.aggregate([
-      {
-        $match: {
-          providerId: mongoose.Types.ObjectId(userId),
-        }
-      },
-      {
-        $group: {
-          _id: {
-            year: { $year: "$createdAt" },
-            month: { $month: "$createdAt" }
-          },
-          count: { $sum: 1 }
-        }
-      },
-      {
-        $sort: {
-          "_id.year": 1,
-          "_id.month": 1
-        }
-      }
-    ]);
-
-    // Format the response
-    const totalAppointments = monthlyCounts.map(item => ({
-      year: item._id.year,
-      month: item._id.month,
-      count: item.count
-    }));
-    return res
-      .status(200)
-      .json(successResponse("Overview fetched successfully", { paidInvoice, unPaidInvoice, newClient, existingClient, totalAppointments }));
-  } catch (error) {
-    console.error(error);
-    return res.status(401).json(errorResponse("Something went wrong"));
-  }
-};
-
-const formatToK = (num) => {
-  return num >= 1000 ? (num / 1000).toFixed(1) + 'K' : num.toString();
-};
-
-const getSalesRevenueGraph = async (req, res) => {
-  try {
-      const startOfYear = moment().startOf('year').toDate();
-      const endOfYear = moment().endOf('year').toDate();
-
-      // Fetch all invoices for the current year
-      const invoices = await Invoice.find({
-        provider: req.user_id,
-          dueDate: {
-              $gte: startOfYear,
-              $lte: endOfYear
-          }
-      });
-
-      // Initialize an array for sales per month
-      let monthlySales = Array(12).fill(0);
-
-      // Process each invoice and sum totals per month
-      invoices.forEach(invoice => {
-          const invoiceMonth = moment(invoice.dueDate).month(); // 0 = Jan, 11 = Dec
-          monthlySales[invoiceMonth] += invoice.total;
-      });
-
-      // Format totals in "K" notation
-      // const formattedSales = monthlySales.map(sales => formatToK(sales));
-      const formattedSales = [...monthlySales];
-
-      // Prepare the months array
-      const months = moment.monthsShort(); // ['Jan', 'Feb', ..., 'Dec']
-
-      // Return the response
-      res.json(successResponse("Revenue fetched", {
-            months,
-            values: formattedSales
-        }));
-  } catch (error) {
-      console.error('Error fetching sales revenue:', error);
-      res.status(500).json(errorResponse('An error occurred while fetching sales revenue.'));
-  }
-}; 
-
 module.exports = {
   addRole,
   editRole,
@@ -397,6 +280,4 @@ module.exports = {
   getUsers,
   getRoles,
   getRolesAndPermissions,
-  getOverview,
-  getSalesRevenueGraph,
 };

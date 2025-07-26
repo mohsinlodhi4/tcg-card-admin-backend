@@ -8,7 +8,8 @@ const adminMiddleware = require("../middlewares/admin");
 
 router.use("/auth", authRouter);
 router.use("/admin", authMiddleware, adminRoutes);
-router.use("/files", authMiddleware, fileRoutes);
+// router.use("/files", authMiddleware, fileRoutes);
+router.use("/files", fileRoutes);
 
 
 module.exports = router;

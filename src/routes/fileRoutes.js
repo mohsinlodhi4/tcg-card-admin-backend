@@ -3,7 +3,7 @@ const {body, param} = require('express-validator');
 const validationResultMiddleware = require('../middlewares/validationResultMiddleware');
 const fileUpload = require('../middlewares/fileUpload');
 const { errorResponse, successResponse } = require('../utils/functions');
-const FileController = require('../controllers/fileController')
+// const FileController = require('../controllers/fileController')
 /** uses auth middleware **/
 
 router.post('/upload', fileUpload.single('file'), async (req, res) => {

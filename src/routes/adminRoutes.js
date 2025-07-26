@@ -54,18 +54,5 @@ router.put(
   AdminController.updateUser
 );
 
-router.put(
-  "/timezone",
-  AdminController.setTimeZone
-);
-
-router.get(
-  "/dashboard-overview",
-  AdminController.getOverview
-);
-router.get(
-  "/sales-revenue",
-  AdminController.getSalesRevenueGraph
-);
 
 module.exports = router;
