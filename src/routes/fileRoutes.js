@@ -5,4 +5,6 @@ const fileController = require('../controllers/fileController')
 
 router.post('/upload', fileController.uploadFile)
 
+router.get('/:directory/:fileName', fileController.view)
+
 module.exports = router;

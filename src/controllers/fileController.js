@@ -6,7 +6,8 @@ const { errorResponse, successResponse } = require('../utils/functions');
 const UPLOAD_DIR_PATH = 'public/uploads'
 
 module.exports = {
-    uploadFile
+    uploadFile,
+    view,
 }
 
 const upload = multer({
@@ -61,4 +62,26 @@ function uploadFile(req, res){
             res.json(successResponse("File uploaded successfully.", { fileName, filePath }));
         });
     });
+}
+
+function view(request, response) {
+    try {
+        let params = request.params
+
+        const pathToFile = path.join(process.cwd(), UPLOAD_DIR_PATH, params.directory, params.fileName) 
+        response.download(
+            pathToFile,
+            function(error) {
+                if (error) {
+                    console.log('error viewing file', params, error)
+                    response
+                        .status(404)
+                        .json({ message: 'File does not exist' })
+                }
+            }
+        )
+    } catch (e) {
+        console.log('New Error' + e)
+        response.status(404).json({ message: 'File does not exist' })
+    }
 }
