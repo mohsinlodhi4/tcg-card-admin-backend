@@ -1,4 +1,4 @@
-const Product = require('../models/Product');
+const Pack = require('../models/Pack');
 const { successResponse, errorResponse } = require('../utils/functions');
 
 // Helpers
@@ -24,9 +24,9 @@ exports.create = async (req, res) => {
         data.totalQuantity = toNumber(data.totalQuantity);
         normalizePrizes(data);
         data.updatedBy = req.user_id
-        const product = new Product(data);
+        const product = new Pack(data);
         await product.save();
-        res.status(201).json(successResponse("Product created successfully.", product));
+        res.status(201).json(successResponse("Pack created successfully.", product));
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
@@ -48,8 +48,8 @@ exports.getAll = async (req, res) => {
         const skip = (page - 1) * limit;
 
         const [products, total] = await Promise.all([
-            Product.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit),
-            Product.countDocuments(filter)
+            Pack.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit),
+            Pack.countDocuments(filter)
         ]);
 
         const totalPages = Math.ceil(total / limit);
@@ -69,9 +69,9 @@ exports.getAll = async (req, res) => {
 // GET ONE
 exports.getById = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
-        if (!product) return res.status(404).json(errorResponse('Product not found'));
-        res.json(successResponse("Product details fetched", product));
+        const product = await Pack.findById(req.params.id);
+        if (!product) return res.status(404).json(errorResponse('Pack not found'));
+        res.json(successResponse("Pack details fetched", product));
     } catch (err) {
         res.status(500).json(errorResponse(err.message));
     }
@@ -86,8 +86,8 @@ exports.update = async (req, res) => {
         normalizePrizes(data);
         data.updatedBy = req.user_id
 
-        const updated = await Product.findByIdAndUpdate(req.params.id, data, { new: true });
-        if (!updated) return res.status(404).json({ error: 'Product not found' });
+        const updated = await Pack.findByIdAndUpdate(req.params.id, data, { new: true });
+        if (!updated) return res.status(404).json({ error: 'Pack not found' });
         res.json(updated);
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -96,9 +96,9 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
     try {
-        const deleted = await Product.findByIdAndDelete(req.params.id);
-        if (!deleted) return res.status(404).json({ error: 'Product not found' });
-        res.json({ message: 'Product deleted successfully' });
+        const deleted = await Pack.findByIdAndDelete(req.params.id);
+        if (!deleted) return res.status(404).json({ error: 'Pack not found' });
+        res.json({ message: 'Pack deleted successfully' });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
