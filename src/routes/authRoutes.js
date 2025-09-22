@@ -33,7 +33,15 @@ router.post(
 router.put(
   "/update-profile",
   authMiddleware,
-  body("name").notEmpty().withMessage("Name is required"),
+  body("name").notEmpty().withMessage("name is required"),
+  body("email").notEmpty().withMessage("email is required")
+  .custom(async (value, { req, loc, path }) => {
+    const alreadyExists = await User.findOne({_id: { $ne: req.user._id }, email: value }, {_id: 1});
+    if (alreadyExists) {
+      throw new Error("Email already exists");
+    }
+    return value;
+  }),
   validationResultMiddleware,
   updateProfile
 );

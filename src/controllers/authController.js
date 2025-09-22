@@ -136,16 +136,18 @@ const updateProfile = async (req, res) => {
   try {
     const data = req.body;
     delete data.email;
-    if (data.newPassword) {
-      data.password = await bcrypt.hash(data.newPassword, 10);
-      delete data.newPassword;
-    }
-    let user = await User.findOneAndUpdate(
-      {_id: req.user_id}, 
-      {
-        $set: {...data, setupCompleted: true},
-      }, 
-      {new: true})
+    delete data.newPassword;
+  let user = await User.findOneAndUpdate(
+    {_id: req.user_id}, 
+    {
+      $set: {
+        email: data.email,
+        name: data.name,
+        phone: data.phone,
+        picture: data.picture,
+      },
+    }, 
+    {new: true})
     user.role = await Role.findById(user.role);
     return res.status(200).json(successResponse('Setup successful.', { user }));
   } catch (e) {
