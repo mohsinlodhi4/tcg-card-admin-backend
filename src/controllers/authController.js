@@ -18,7 +18,7 @@ const Role = require('../models/Role');
 const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    const roleName = req.params.role;
+    const roleName = req.query.role || 'user';
 
     const role = await Role.findOne({ name: roleName });
     if (!role || role.name === "admin") {
