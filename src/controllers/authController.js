@@ -31,6 +31,7 @@ const register = async (req, res) => {
     if (oldUser) {
       return res.status(400).json(errorResponse("Email is already taken"));
     }
+    console.log("role", role)
 
     let hashPassword = await bcrypt.hash(password, 10);
 
@@ -38,7 +39,7 @@ const register = async (req, res) => {
       name,
       email,
       password: hashPassword,
-      role_id: role._id,
+      role: role._id,
     });
     await user.save();
     let token = jwt.sign({ id: user._id }, process.env.JWT_ENCRYPTION_KEY);
@@ -51,11 +52,11 @@ const register = async (req, res) => {
       .status(200)
       .json(successResponse("Registration successful.", { user }));
   } catch (e) {
+    console.error(e);
     let message = "Something went wrong.";
     if (e.name === "ValidationError") {
-      message = e.errors[0].message;
+      // message = e.errors[0].message;
     }
-    console.error(e);
     return res.status(400).json(errorResponse(message));
   }
 };
