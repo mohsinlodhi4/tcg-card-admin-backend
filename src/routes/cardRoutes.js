@@ -9,4 +9,8 @@ router.get('/:id', cardController.getById);
 router.put('/:id', authMiddleware, cardController.update);
 router.delete('/:id', authMiddleware, cardController.delete);
 
+// Price history routes
+router.get('/:id/price-history', cardController.getPriceHistory);
+router.post('/:id/price-history', authMiddleware, cardController.addPriceHistory);
+
 module.exports = router;
