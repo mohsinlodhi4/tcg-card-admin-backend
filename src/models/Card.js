@@ -24,6 +24,7 @@ const cardSchema = new mongoose.Schema({
     maxPriceAlert: { type: Number },
     status: { type: String, default: 'active', enum: ['active', 'inactive'] },
     stats: { type: statsSchema, default: () => ({}) },
+    prizeTier: { type: String }, // Added prizeTier field
     
     updatedBy: {
         type: mongoose.Schema.Types.ObjectId,

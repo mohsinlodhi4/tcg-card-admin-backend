@@ -24,7 +24,20 @@ exports.create = async (req, res) => {
         normalizeRarityRatios(data);
         data.updatedBy = req.user_id;
         
+        // Extract card IDs objects if full objects
+        if (data.cards && Array.isArray(data.cards)) {
+            data.cards = data.cards.map(card => {
+                if (typeof card === 'object' && card._id) {
+                    return card._id;
+                }
+                return card;
+            });
+        }
+        
         const pack = new Pack(data);
+        console.log('Pack data:', data);
+        console.log('Pack instance:', pack);
+
         await pack.save();
         res.status(201).json(successResponse("Pack created successfully.", pack));
     } catch (err) {
