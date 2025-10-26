@@ -5,6 +5,7 @@ const adminRoutes = require("./adminRoutes");
 const fileRoutes = require("./fileRoutes");
 const packRoutes = require("./packRoutes");
 const cardRoutes = require("./cardRoutes");
+const ecommerceRoutes = require("./ecommerceRoutes");
 
 const adminMiddleware = require("../middlewares/admin");
 
@@ -13,6 +14,7 @@ router.use("/admin", authMiddleware, adminRoutes);
 router.use("/files", fileRoutes);
 router.use("/packs", packRoutes);
 router.use("/cards", cardRoutes);
+router.use("/ecommerce", ecommerceRoutes);
 
 
 module.exports = router;

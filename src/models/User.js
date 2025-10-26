@@ -17,6 +17,33 @@ const User = new mongoose.Schema(
       type: Array,
       default: [],
     },
+    walletBalance: {
+      type: Number,
+      default: 0,
+      min: 0
+    },
+    cart: {
+      items: [{
+        itemType: {
+          type: String,
+          enum: ['card', 'pack', 'coins']
+        },
+        itemId: {
+          type: mongoose.Schema.Types.ObjectId
+        },
+        quantity: {
+          type: Number,
+          min: 1
+        },
+        price: {
+          type: Number
+        }
+      }],
+      totalAmount: {
+        type: Number,
+        default: 0
+      }
+    },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId, 
       ref: "User"
