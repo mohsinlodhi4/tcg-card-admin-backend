@@ -1,0 +1,928 @@
+{
+	"info": {
+		"_postman_id": "tcg-ecommerce-api",
+		"name": "TCG Ecommerce API",
+		"description": "Complete ecommerce API collection for TCG platform including cart, orders, inventory, and wallet management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					}
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Cart Management",
+			"item": [
+				{
+					"name": "Add Card to Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"itemType\": \"card\",\n  \"itemId\": \"{{card_id}}\",\n  \"quantity\": 2\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ecommerce/cart/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"cart",
+								"add"
+							]
+						}
+					}
+				},
+				{
+					"name": "Add Pack to Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"itemType\": \"pack\",\n  \"itemId\": \"{{pack_id}}\",\n  \"quantity\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ecommerce/cart/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"cart",
+								"add"
+							]
+						}
+					}
+				},
+				{
+					"name": "Add Coins to Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"itemType\": \"coins\",\n  \"itemId\": \"50\",\n  \"quantity\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ecommerce/cart/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"cart",
+								"add"
+							]
+						}
+					}
+				},
+				{
+					"name": "View Cart",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/cart",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"cart"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Cart Item",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"itemType\": \"card\",\n  \"itemId\": \"{{card_id}}\",\n  \"quantity\": 3\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ecommerce/cart/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"cart",
+								"update"
+							]
+						}
+					}
+				},
+				{
+					"name": "Remove Item from Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/cart/remove/card/{{card_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"cart",
+								"remove",
+								"card",
+								"{{card_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Clear Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/cart/clear",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"cart",
+								"clear"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Order Management",
+			"item": [
+				{
+					"name": "Place Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"shippingAddress\": {\n    \"street\": \"123 Main Street\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"zipCode\": \"10001\",\n    \"country\": \"USA\"\n  },\n  \"notes\": \"Please handle with care\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ecommerce/orders/place",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"orders",
+								"place"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get User Orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/orders?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Orders by Status",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/orders?status=pending",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "pending"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Order by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/orders/{{order_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"orders",
+								"{{order_id}}"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Inventory Management",
+			"item": [
+				{
+					"name": "Get User Inventory",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/inventory?page=1&limit=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"inventory"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Inventory by Type",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/inventory?itemType=card",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"inventory"
+							],
+							"query": [
+								{
+									"key": "itemType",
+									"value": "card"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Search Inventory",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/inventory?search=dragon",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"inventory"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "dragon"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Inventory Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/inventory/stats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"inventory",
+								"stats"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Specific Inventory Item",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/inventory/card/{{card_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"inventory",
+								"card",
+								"{{card_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Item Quantity",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ecommerce/inventory/card/{{card_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"inventory",
+								"card",
+								"{{card_id}}"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Wallet Management",
+			"item": [
+				{
+					"name": "Get Wallet Balance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/wallet/balance",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"wallet",
+								"balance"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Admin Functions",
+			"item": [
+				{
+					"name": "Update Order Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"confirmed\",\n  \"paymentStatus\": \"paid\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ecommerce/admin/orders/{{order_id}}/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"admin",
+								"orders",
+								"{{order_id}}",
+								"status"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Orders (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/admin/orders?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"admin",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Orders by User (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/ecommerce/admin/orders?userId={{user_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"admin",
+								"orders"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "{{user_id}}"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Add Coins to User Wallet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": \"{{user_id}}\",\n  \"amount\": 100.00,\n  \"reason\": \"Promotional bonus\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/ecommerce/admin/wallet/add-coins",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"ecommerce",
+								"admin",
+								"wallet",
+								"add-coins"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Card Management",
+			"item": [
+				{
+					"name": "Get All Cards",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/cards?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cards"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Card by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/cards/{{card_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cards",
+								"{{card_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Card (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Fire Dragon\",\n  \"price\": 25.00,\n  \"rarity\": \"rare\",\n  \"series\": \"Elemental\",\n  \"description\": \"A powerful fire dragon card\",\n  \"quantity\": 100,\n  \"stats\": {\n    \"attack\": 80,\n    \"defense\": 60,\n    \"hp\": 100,\n    \"manaCost\": 5\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/cards",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"cards"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Pack Management",
+			"item": [
+				{
+					"name": "Get All Packs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/packs?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"packs"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Pack by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/packs/{{pack_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"packs",
+								"{{pack_id}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Pack (Admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{admin_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Elemental Pack\",\n  \"price\": 15.00,\n  \"cardsPerPack\": 5,\n  \"category\": \"Elemental\",\n  \"description\": \"A pack containing elemental cards\",\n  \"rarityRatios\": {\n    \"common\": 3,\n    \"rare\": 1,\n    \"epic\": 1,\n    \"legendary\": 0\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/packs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"packs"
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "admin_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "card_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "pack_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "order_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
