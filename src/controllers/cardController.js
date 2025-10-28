@@ -40,18 +40,80 @@ exports.create = async (req, res) => {
 // GET ALL
 exports.getAll = async (req, res) => {
     try {
-        let { page = 1, limit = 10 } = req.query;
+        let { 
+            page = 1, 
+            limit = 10, 
+            search,
+            condition,
+            rarity,
+            series,
+            type,
+            min,
+            max,
+            edition,
+            status = 'active'
+        } = req.query;
 
         page = parseInt(page);
         limit = parseInt(limit);
-        let search = req.query.search || '';
-        let filter = {};
+        let filter = { status };
         
-        if (search && !!search.trim()) {
-            filter.name = new RegExp(search.trim(), 'i');
+        if (search && search.trim()) {
+            const searchTerm = search.trim();
+            filter.name = new RegExp(searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+        }
+
+        // Condition filter
+        if (condition && condition.trim()) {
+            filter.condition = condition.trim();
+        }
+
+        // Rarity filter
+        if (rarity && rarity.trim()) {
+            const rarities = rarity.split(',').map(r => r.trim()).filter(Boolean);
+            if (rarities.length > 0) {
+                filter.rarity = { $in: rarities };
+            }
+        }
+
+        // Series filter
+        if (series && series.trim()) {
+            const seriesList = series.split(',').map(s => s.trim()).filter(Boolean);
+            if (seriesList.length > 0) {
+                filter.series = { $in: seriesList };
+            }
+        }
+
+        // Edition filter
+        if (edition && edition.trim()) {
+            const editions = edition.split(',').map(e => e.trim()).filter(Boolean);
+            if (editions.length > 0) {
+                filter.edition = { $in: editions };
+            }
+        }
+
+        // Type filter
+        if (type && type.trim()) {
+            const types = type.split(',').map(t => t.trim()).filter(Boolean);
+            if (types.length > 0) {
+                filter.tags = { $in: types };
+            }
+        }
+
+        // Price range filter
+        if (min || max) {
+            filter.price = {};
+            if (min && !isNaN(parseFloat(min))) {
+                filter.price.$gte = parseFloat(min);
+            }
+            if (max && !isNaN(parseFloat(max))) {
+                filter.price.$lte = parseFloat(max);
+            }
         }
 
         const skip = (page - 1) * limit;
+
+        console.log('Applied filters:', JSON.stringify(filter, null, 2));
 
         const [cards, total] = await Promise.all([
             Card.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit),
@@ -61,6 +123,7 @@ exports.getAll = async (req, res) => {
         const totalPages = Math.ceil(total / limit);
 
         res.json({
+            success: true,
             total,
             page,
             totalPages,
@@ -68,7 +131,12 @@ exports.getAll = async (req, res) => {
             data: cards
         });
     } catch (err) {
-        res.status(500).json(errorResponse(err.message));
+        console.error('Error in getAll cards:', err);
+        res.status(500).json({
+            success: false,
+            message: err.message,
+            error: 'Failed to fetch cards'
+        });
     }
 };
 
